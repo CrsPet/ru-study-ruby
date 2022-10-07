@@ -3,8 +3,8 @@ module Exercise
     class << self
       def find_max(array)
         max = array[0]
-        (1...array.length).each do |i|
-          max = array[i] if array[i] > max
+        array.each do |elem|
+          max = elem if elem > max
         end
         max
       end
