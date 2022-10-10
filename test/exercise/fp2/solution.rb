@@ -27,15 +27,8 @@ module Exercise
       def my_reduce(acc = nil, &block)
         return acc if empty?
 
-        arr = self
-
-        if acc.nil?
-          acc = self[0]
-          arr = MyArray.new(self[1..])
-        end
-
-        acc = yield acc, arr[0]
-        MyArray.new(arr[1..]).my_reduce(acc, &block)
+        acc = acc.nil? ? self[0] : (yield acc, self[0])
+        MyArray.new(self[1..]).my_reduce(acc, &block)
       end
     end
   end
