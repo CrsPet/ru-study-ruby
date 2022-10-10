@@ -5,10 +5,11 @@ module Exercise
       # Использовать свои написанные функции для реализации следующих - можно.
 
       # Написать свою функцию my_each
-      def my_each
-        for el in self do
-          yield el
-        end
+      def my_each(&block)
+        return self if empty?
+
+        yield self[0]
+        MyArray.new(self[1..]).my_each(&block)
         self
       end
 
@@ -23,17 +24,18 @@ module Exercise
       end
 
       # Написать свою функцию my_reduce
-      def my_reduce(acc = nil)
-        return acc if length.zero?
+      def my_reduce(acc = nil, &block)
+        return acc if empty?
 
         arr = self
-        if acc.nil?
-          acc = self [0]
-          arr = MyArray.new(self [1, length])
-        end
-        arr.my_each { |el| acc = yield(acc, el) }
 
-        acc
+        if acc.nil?
+          acc = self[0]
+          arr = MyArray.new(self[1..])
+        end
+
+        acc = yield acc, arr[0]
+        MyArray.new(arr[1..]).my_reduce(acc, &block)
       end
     end
   end
